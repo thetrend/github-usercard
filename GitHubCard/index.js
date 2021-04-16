@@ -5,12 +5,6 @@ import axios from 'axios';
     https://api.github.com/users/<your name>
 */
 axios.get('https://api.github.com/users/thetrend')
-  .then( response => {
-    console.log(response)
-  })
-  .catch( err => {
-    console.log(err);
-  });
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -23,6 +17,15 @@ axios.get('https://api.github.com/users/thetrend')
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
 */
+.then(response => {
+  const child = document.querySelector('.cards');
+  child.appendChild(githubCard(response.data));
+  return child;
+})
+.catch( err => {
+  console.log(err);
+});
+
 
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
@@ -35,7 +38,23 @@ axios.get('https://api.github.com/users/thetrend')
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell'
+];
+
+followersArray.forEach(friend => {
+  axios.get(`https://api.github.com/users/${friend}`)
+    .then(response => {
+      const cards = document.querySelector('.cards');
+      cards.appendChild(githubCard(response.data));
+      return cards;
+    })
+});
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -57,7 +76,7 @@ const followersArray = [];
     </div>
 */
 
-const githubCard = ({ data }) => {
+const githubCard = (data) => {
   const container = document.createElement('div');
   container.classList.add('card');
   
