@@ -9,7 +9,7 @@ axios.get('https://api.github.com/users/thetrend')
     console.log(response)
   })
   .catch( err => {
-    // deal with the error in here
+    console.log(err);
   });
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -56,6 +56,56 @@ const followersArray = [];
       </div>
     </div>
 */
+
+const githubCard = ({ data }) => {
+  const container = document.createElement('div');
+  container.classList.add('card');
+  
+  const avatar = document.createElement('img');
+  avatar.src = data.avatar_url;
+
+  const cardInfo = document.createElement('div');
+  cardInfo.classList.add('card-info');
+
+  const h3 = document.createElement('h3');
+  h3.classList.add('name');
+  h3.textContent = data.name;
+
+  const pUsername = document.createElement('p');
+  pUsername.classList.add('username');
+  pUsername.textContent = data.login;
+
+  const location = document.createElement('p');
+  location.textContent = `Location: ${data.location}`;
+
+  const profile = document.createElement('p');
+  const profileLink = document.createElement('a');
+  profileLink.href = data.html_url;
+  profileLink.textContent = data.html_url;
+  profile.appendChild(profileLink);
+
+  const followers = document.createElement('p');
+  followers.textContent = `Followers: ${data.followers}`;
+
+  const following = document.createElement('p');
+  following.textContent = `Following: ${data.following}`;
+
+  const bio = document.createElement('p');
+  bio.textContent = `Bio: ${data.bio}`;
+
+  cardInfo.appendChild(h3);
+  cardInfo.appendChild(pUsername);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+
+  container.appendChild(avatar);
+  container.appendChild(cardInfo);
+
+  return container;
+}
 
 /*
   List of LS Instructors Github username's:
